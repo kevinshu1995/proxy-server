@@ -3,25 +3,25 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 var app = express();
 
+app.use(cors());
 // open data api
 var airRouter = require("./routes/air");
-app.use("/air", airRouter);
-
-let allowCrossDomain = function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", [
+var corsOptions = {
+    origin: [
         /^http\:\/\/localhost(\:[0-9]{4})$/,
         "https://kevinshu1995.github.io/",
-    ]);
-    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-    next();
+    ],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // default
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-app.use(allowCrossDomain);
+app.use("/air", cors(corsOptions), airRouter);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

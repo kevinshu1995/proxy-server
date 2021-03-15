@@ -8,8 +8,9 @@ router.get("/", function (req, res, next) {
     console.log("query: ", queries);
     let url =
         "https://data.epa.gov.tw/api/v1/aqx_p_432?api_key=efdc6239-d8be-4415-9515-fbbf072aadf4";
+    const api = `${url}${/\?/.test(url) ? "&" : "?"}${new Date().getTime()}`;
     var options = {
-        host: url,
+        host: api,
         method: "GET",
     };
 
